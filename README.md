@@ -1,2 +1,0 @@
-# UbikeReact
-Created with CodeSandbox
