@@ -10,6 +10,11 @@ class UbikeList extends React.Component {
     }
     return Object.values(rawData);
   }
+  handleClickFilter(id) {
+    // onClick事件要接functoin的值
+    // console.log(id);
+    this.props.handleClickFilter(id);
+  }
 
   render() {
     // console.log("UbikeList", this.props.filterText);
@@ -26,7 +31,13 @@ class UbikeList extends React.Component {
       })
       .map(rows => {
         return typeof rows.id != "undefined" ? (
-          <li key={rows.id} className={rows.sbi < 10 ? "danger" : "info"}>
+          <li
+            onClick={() => {
+              this.handleClickFilter(rows.id);
+            }}
+            key={rows.id}
+            className={rows.sbi < 10 ? "danger" : "info"}
+          >
             {rows.sna} ({rows.sbi}/{rows.bemp})
           </li>
         ) : (

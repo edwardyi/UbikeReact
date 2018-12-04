@@ -14,13 +14,23 @@ class App extends Component {
     super(props);
     this.state = {
       // hello~~
-      filterText: ""
+      filterText: "",
+      // 2001, 2002, 2005
+      favourites: []
     };
   }
+
   updateFilterText(value) {
     this.setState({ filterText: value });
     // this.props.updateFilterText(value);
   }
+
+  handleClickFilter(id) {
+    const favList = this.state.favourites.concat([id]);
+    // console.log("add ", favList);
+    this.setState({ favourites: favList });
+  }
+
   render() {
     // console.log(this.state.filterText);
     return (
@@ -30,8 +40,13 @@ class App extends Component {
           updateFilterText={this.updateFilterText.bind(this)}
         />
         <main>
-          <ShortList />
-          <UbikeList data={data} filterText={this.state.filterText} />
+          <ShortList data={data.retVal} favourites={this.state.favourites} />
+          <UbikeList
+            data={data}
+            filterText={this.state.filterText}
+            handleClickFilter={this.handleClickFilter.bind(this)}
+            favourites={this.state.favourites}
+          />
           <Credit />
         </main>
       </div>
