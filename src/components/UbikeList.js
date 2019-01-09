@@ -7,7 +7,9 @@ class UbikeList extends React.Component {
     let rawData = this.props.data.retVal;
     for (let i in rawData) {
       rawData[i]["id"] = i;
+      rawData[i]["is_fav"] = this.props.favourites.indexOf(i) > -1;
     }
+
     return Object.values(rawData);
   }
   handleClickFilter(id) {
@@ -24,7 +26,11 @@ class UbikeList extends React.Component {
     const ubikeList = rawData
       .filter(rows => {
         // return rows;
-        return filterText != "" ? rows.sna.indexOf(filterText) >= 0 : rows;
+        // console.log(rows.is_fav);
+        // return !rows.is_fav;
+        return filterText != ""
+          ? rows.sna.indexOf(filterText) >= 0 && !rows.is_fav
+          : rows && !rows.is_fav;
         // return (
         //   this.props.filterText != "hello" && rows.sna === this.props.filterText
         // );
