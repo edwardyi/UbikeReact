@@ -4,10 +4,9 @@ import renderer from "react-test-renderer";
 import "normalize.css";
 
 import UbikeList from "./components/UbikeList";
-import data from "./data/taoyuan.json";
 import Credit from "./components/Credit";
 import SearchForm from "./components/SearchForm";
-import ShortList from "./components/ShortList";
+import FavList from "./components/FavList";
 
 class App extends Component {
   constructor(props) {
@@ -26,8 +25,18 @@ class App extends Component {
   }
 
   handleClickFilter(id) {
-    const favList = this.state.favourites.concat([id]);
+    const favList =
+      this.state.favourites.indexOf(id) < 0
+        ? this.state.favourites.concat([id])
+        : this.state.favourites;
     // console.log("add ", favList);
+    this.setState({ favourites: favList });
+  }
+  removeFavourite(id) {
+    // console.log("App remove id ", id);
+    const favList = this.state.favourites.filter(key => {
+      return key != id;
+    });
     this.setState({ favourites: favList });
   }
 
@@ -40,9 +49,13 @@ class App extends Component {
           updateFilterText={this.updateFilterText.bind(this)}
         />
         <main>
-          <ShortList data={data.retVal} favourites={this.state.favourites} />
+          <FavList
+            data={this.props.data.retVal}
+            favourites={this.state.favourites}
+            removeFavourite={this.removeFavourite.bind(this)}
+          />
           <UbikeList
-            data={data}
+            data={this.props.data}
             filterText={this.state.filterText}
             handleClickFilter={this.handleClickFilter.bind(this)}
             favourites={this.state.favourites}
